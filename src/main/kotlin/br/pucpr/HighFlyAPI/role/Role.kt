@@ -14,5 +14,5 @@ class Role (
     val name: String,
 
     @Column(nullable = true)
-    val description: String = ""
+    val description: String? = ""
 )

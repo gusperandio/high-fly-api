@@ -26,4 +26,6 @@ class UserRepository {
     }
 
     fun findByIdOrNull(id: Long) = users[id]
+
+    fun delete(id: Long) = users.remove(id)
 }

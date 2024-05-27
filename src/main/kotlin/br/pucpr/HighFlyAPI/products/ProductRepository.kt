@@ -26,4 +26,6 @@ object ProductRepository {
     fun findMultipleIdsOrNull(ids: List<Long>): List<Product>? {
         return ids.mapNotNull { products[it] }
     }
+
+
 }

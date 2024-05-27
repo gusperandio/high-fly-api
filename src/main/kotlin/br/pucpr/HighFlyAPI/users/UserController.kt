@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.*
 class UserController(val userService: UserService) {
 
     @PostMapping()
-    fun insertRoute(@RequestBody @Valid userReq: UserRequest): ResponseEntity<User> =
+    fun insertUser(@RequestBody @Valid userReq: UserRequest): ResponseEntity<User> =
         ResponseEntity.status(HttpStatus.CREATED)
-            .body(userReq.toUser())
+            .body(userService.save(userReq.toUser()))
 
     @GetMapping()
-    fun findAllRoute() = userService.findAll()
+    fun findAll(sortDir: String?) =
+        SortDir.entries.firstOrNull { it.name == (sortDir ?: "ASC").uppercase() }
+            ?.let { userService.findAll(it) }
+            ?.let { ResponseEntity.ok(it) }
+            ?: ResponseEntity.notFound().build()
 
     @GetMapping("/{id}")
     fun findByIdRoute(@PathVariable id: Long) =
@@ -24,5 +28,9 @@ class UserController(val userService: UserService) {
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()
 
-
+    @DeleteMapping("/{id}")
+    fun deleteById(@PathVariable id: Long): ResponseEntity<Void> =
+        userService.deleteById(id)
+            ?.let { ResponseEntity.ok().build() }
+            ?: ResponseEntity.notFound().build()
 }

@@ -10,14 +10,10 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/procuts")
 class ProductController(val productService: ProductService) {
 
-    @GetMapping()
-    fun findAllRoute() = productService.findAll()
-
-//    @GetMapping("/{id}")
-//    fun findByIdRoute(@PathVariable id: Long) =
-//        productService.getProductById(id)
-//            ?.let { ResponseEntity.ok(it) }
-//            ?: ResponseEntity.notFound().build()
+    @GetMapping
+    fun findAllProducts(): ResponseEntity<List<Product>> =
+        productService.findAll()
+            .let { ResponseEntity.ok(it) }
 
 
 }

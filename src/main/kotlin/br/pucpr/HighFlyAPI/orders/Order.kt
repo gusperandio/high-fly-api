@@ -7,20 +7,20 @@ import org.jetbrains.annotations.NotNull
 import java.time.LocalTime
 
 @Entity
-@Table(name = "products")
+@Table(name = "orders")
 class Order (
 
     @Id
     @GeneratedValue
     var id: Long? = null,
 
-    @NotNull
-    @OneToOne
-    @JoinColumn(name = "id")
-    var idPerson: User,
-
-    @NotNull
-    var products: List<Product>,
+//    @NotNull
+//    @OneToOne
+//    @JoinColumn(name = "id")
+//    var idPerson: User,
+//
+//     @NotNull
+//     var products: List<Product>,
 
     @NotNull
     var status: Boolean = false,
@@ -31,9 +31,9 @@ class Order (
     @NotNull
     var identify : String,
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "id")
-    var drone: Drone
+//    @NotNull
+//    @ManyToOne
+//    @JoinColumn(name = "id")
+//    var drone: Drone
 
 )

@@ -13,12 +13,11 @@ interface DroneRepository : JpaRepository<Drone, Long>{
 
     @Modifying
     @Transactional
-    @Query("UPDATE Drone d SET d.using = :status WHERE d.id = :id")
+    @Query("UPDATE Drone d SET d.usage = :status WHERE d.id = :id")
     fun updateDroneStatus(@Param("id") id: Long, @Param("status") status: Boolean): Int
 
-    @Query("SELECT d.using FROM Drone d WHERE d.id = :id")
+    @Query("SELECT d.usage FROM Drone d WHERE d.id = :id")
     fun findStatusById(@Param("id") id: Long): Boolean
-
 }
 
 //    return when (typeInfo) {

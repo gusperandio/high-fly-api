@@ -5,12 +5,12 @@ import org.jetbrains.annotations.NotNull
 
 @Entity
 @Table(name = "products")
-class Product(
+class Product (
     @Id @GeneratedValue
-    var id: Long? = null,
+    val id: Long? = null,
 
     @Column(unique = true, nullable = false)
-    var name: String = "",
+    val name: String,
 
     @NotNull
     var price: Double = 0.0,

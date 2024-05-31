@@ -27,14 +27,13 @@ class BDInitilizer(private val productRepository: ProductRepository, private val
 
             if(droneRepository.count() == 0L){
                 val drones = listOf(
-                    Drone(name = "DLR-1 MiniAircraft", range = 3.0, payload = 2.5),
-                    Drone(name = "DLV-4.1 Aircraft", range = 8.0, payload = 6.0),
-                    Drone(name = "DLV-Turbo Aircraft", range = 40.0, payload = 4.8)
+                    Drone(name = "DLR-1 MiniAircraft", range = 3.0, payload = 2.5, usage = false),
+                    Drone(name = "DLV-4.1 Aircraft", range = 8.0, payload = 6.0, usage = false),
+                    Drone(name = "DLV-Turbo Aircraft", range = 40.0, payload = 4.8, usage = false)
                 )
 
                 droneRepository.saveAll(drones)
             }
         }
     }
-
 }

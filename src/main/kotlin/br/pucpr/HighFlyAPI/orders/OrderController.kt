@@ -1,6 +1,5 @@
 package br.pucpr.HighFlyAPI.orders
 
-import br.pucpr.HighFlyAPI.products.ProductService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

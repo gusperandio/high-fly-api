@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class HighFlyApiApplication
 
 fun main(args: Array<String>) {
-	runApplication<HighFlyApiApplication>(*args)
+    runApplication<HighFlyApiApplication>(*args)
 }

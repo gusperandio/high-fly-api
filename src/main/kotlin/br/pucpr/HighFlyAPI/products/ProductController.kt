@@ -13,11 +13,11 @@ class ProductController(val productService: ProductService) {
     @GetMapping()
     fun findAllRoute() = productService.findAll()
 
-    @GetMapping("/{id}")
-    fun findByIdRoute(@PathVariable id: Long) =
-        productService.getProductById(id)
-            ?.let { ResponseEntity.ok(it) }
-            ?: ResponseEntity.notFound().build()
+//    @GetMapping("/{id}")
+//    fun findByIdRoute(@PathVariable id: Long) =
+//        productService.getProductById(id)
+//            ?.let { ResponseEntity.ok(it) }
+//            ?: ResponseEntity.notFound().build()
 
 
 }

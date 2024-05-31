@@ -1,14 +1,12 @@
 package br.pucpr.HighFlyAPI.drones
 
-import jakarta.persistence.Column
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import org.jetbrains.annotations.NotNull
 
+@Entity
+@Table(name = "drones")
 class Drone (
-
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     var id: Long? = null,
 
     @Column(unique = true, nullable = false)

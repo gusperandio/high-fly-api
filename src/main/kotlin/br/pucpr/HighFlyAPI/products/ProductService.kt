@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service
 class ProductService(@Autowired val productRepository: ProductRepository) {
     fun findAll() = productRepository.findAll()
 
-    fun getProductById(id: Long) = productRepository.findByIdOrNull(id)
+//    fun getProductById(id: Long) = productRepository.findByIdOrNull(id)
 }

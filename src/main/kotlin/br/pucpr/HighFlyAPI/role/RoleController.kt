@@ -16,4 +16,6 @@ class RoleController(val service: RoleService) {
     @GetMapping
     fun list() = service.findAll()
         .let { ResponseEntity.ok(it) }
+
+
 }

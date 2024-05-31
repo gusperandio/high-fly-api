@@ -2,10 +2,7 @@ package br.pucpr.HighFlyAPI.orders
 import br.pucpr.HighFlyAPI.drones.Drone
 import br.pucpr.HighFlyAPI.products.Product
 import br.pucpr.HighFlyAPI.users.User
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
+import jakarta.persistence.*
 import org.jetbrains.annotations.NotNull
 import java.time.LocalTime
 
@@ -16,7 +13,9 @@ class Order (
     var id: Long? = null,
 
     @NotNull
-    var idPerson: Long? = null,
+    @OneToOne
+    @JoinColumn(name = "id")
+    var idPerson: User,
 
     @NotNull
     var products: List<Product>,

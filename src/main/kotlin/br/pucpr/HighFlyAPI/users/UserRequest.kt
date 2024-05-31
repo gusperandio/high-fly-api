@@ -9,8 +9,10 @@ data class UserRequest(
     @NotBlank
     val password: String?,
     val name: String?,
-){
-    fun toUser() = User(email = email!!,
+) {
+    fun toUser() = User(
+        email = email!!,
         password = password!!,
-        name = name ?: "")
+        name = name ?: ""
+    )
 }

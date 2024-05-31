@@ -1,12 +1,11 @@
 package br.pucpr.HighFlyAPI.products
 
-import jakarta.persistence.Column
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import org.jetbrains.annotations.NotNull
 
-class Product (
-
+@Entity
+@Table(name = "products")
+class Product(
     @Id @GeneratedValue
     var id: Long? = null,
 

@@ -1,7 +1,7 @@
 package br.pucpr.HighFlyAPI.users
 
+import br.pucpr.HighFlyAPI.enums.SortDir
 import jakarta.validation.Valid
-import jakarta.websocket.server.PathParam
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -16,9 +16,12 @@ class UserController(val userService: UserService) {
             .body(userService.save(userReq.toUser()))
 
     @GetMapping()
-    fun findAll(sortDir: String?) =
+    fun findAll(
+        @RequestParam sortDir: String? = null,
+        @RequestParam role: String? = null
+    ) =
         SortDir.entries.firstOrNull { it.name == (sortDir ?: "ASC").uppercase() }
-            ?.let { userService.findAll(it) }
+            ?.let { userService.findAll(it, role) }
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()
 
@@ -31,6 +34,15 @@ class UserController(val userService: UserService) {
     @DeleteMapping("/{id}")
     fun deleteById(@PathVariable id: Long): ResponseEntity<Void> =
         userService.deleteById(id)
-            ?.let { ResponseEntity.ok().build() }
+            .let { ResponseEntity.ok().build() }
             ?: ResponseEntity.notFound().build()
+
+    @PutMapping("{id}/roles/{role}")
+    fun grantRole(
+        @PathVariable id: Long,
+        @PathVariable role: String
+    ): ResponseEntity<Void> =
+        if (userService.addRole(id, role)) ResponseEntity.ok().build()
+        else ResponseEntity.noContent().build()
+
 }

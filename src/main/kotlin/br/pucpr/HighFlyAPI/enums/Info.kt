@@ -1,4 +1,4 @@
-package br.pucpr.HighFlyAPI.drones
+package br.pucpr.HighFlyAPI.enums
 
 enum class Info {
     RANGE, PAYLOAD

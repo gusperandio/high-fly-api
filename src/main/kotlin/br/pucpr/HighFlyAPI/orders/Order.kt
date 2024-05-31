@@ -6,6 +6,8 @@ import jakarta.persistence.*
 import org.jetbrains.annotations.NotNull
 import java.time.LocalTime
 
+@Entity
+@Table(name = "products")
 class Order (
 
     @Id

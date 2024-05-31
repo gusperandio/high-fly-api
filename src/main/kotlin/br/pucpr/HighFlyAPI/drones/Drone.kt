@@ -17,4 +17,7 @@ class Drone (
 
     @NotNull
     var payload: Double? = null,
+
+    @NotNull
+    var using: Boolean = false
 )

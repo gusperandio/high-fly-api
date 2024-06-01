@@ -2,6 +2,7 @@ package br.pucpr.HighFlyAPI.orders
 import br.pucpr.HighFlyAPI.drones.Drone
 import br.pucpr.HighFlyAPI.products.Product
 import br.pucpr.HighFlyAPI.users.User
+import br.pucpr.HighFlyAPI.utils.generateGuid
 import jakarta.persistence.*
 import org.jetbrains.annotations.NotNull
 import java.time.LocalTime
@@ -29,7 +30,7 @@ class Order (
     var time: LocalTime = LocalTime.now(),
 
     @NotNull
-    var identify : String,
+    var identify : String = generateGuid(true),
 
 //    @NotNull
 //    @ManyToOne

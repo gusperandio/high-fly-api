@@ -1,18 +1,47 @@
 package br.pucpr.HighFlyAPI.drones
 
+import br.pucpr.HighFlyAPI.enums.SortDir
+import br.pucpr.HighFlyAPI.users.User
+import br.pucpr.HighFlyAPI.users.UserRequest
+import br.pucpr.HighFlyAPI.users.UserResponse
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/drones")
 class DroneController(val droneService: DroneService) {
 
+    @PostMapping()
+    fun insertDrone(@RequestBody @Valid droneReq: DroneRequest): ResponseEntity<Drone> =
+        ResponseEntity.status(HttpStatus.CREATED)
+            .body(droneService.insert(droneReq.toDrone()))
+
+    @GetMapping()
+    fun findAll() = droneService.findAll()
+        ?.map { DroneResponse(it) }
+        ?.let { ResponseEntity.ok(it) }
+        ?: ResponseEntity.notFound().build()
+
     @GetMapping("/{id}")
     fun findByIdOrNull(@PathVariable id: Long) =
         droneService.findByIdOrNull(id)
-            ?.let {ResponseEntity.ok(it)}
+            ?.let { DroneResponse(it) }
+            ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()
+
+    @DeleteMapping("/{id}")
+    fun deleteById(@PathVariable id: Long): ResponseEntity<Void> =
+        droneService.deleteDroneByID(id)
+            .let { ResponseEntity.ok().build() }
+            ?: ResponseEntity.notFound().build()
+
+    @GetMapping("/{id}")
+    fun findStatus(@PathVariable id: Long): ResponseEntity<Boolean> =
+        droneService.findUsage(id).let {
+            ResponseEntity.ok(it)
+        } ?: ResponseEntity.notFound().build()
+
+
 }

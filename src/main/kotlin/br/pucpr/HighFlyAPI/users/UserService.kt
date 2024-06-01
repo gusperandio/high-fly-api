@@ -11,24 +11,13 @@ class UserService(
     val userRepository: UserRepository,
     val roleRepository: RoleRepository
 ) {
-    fun save(user: User): User {
-        val firstUser = userRepository.count() == 0L
-        if (firstUser) {
-            val roleName = "ADMIN"
-            val i = roleRepository.findByName(roleName)
-
-            if (i != null)
-                user.roles.add(i)
-        }
-
-        return userRepository.save(user)
-    }
+    fun save(user: User): User = userRepository.save(user)
 
     fun findAll(dir: SortDir, role: String?) =
         role?.let { r ->
             when (dir) {
-                SortDir.ASC -> userRepository.findByRole(r).sortedBy { it.name }
-                SortDir.DESC -> userRepository.findByRole(r).sortedByDescending { it.name }
+                SortDir.ASC -> userRepository.findByRole(r.uppercase()).sortedBy { it.name }
+                SortDir.DESC -> userRepository.findByRole(r.uppercase()).sortedByDescending { it.name }
             }
 
         } ?: when (dir) {

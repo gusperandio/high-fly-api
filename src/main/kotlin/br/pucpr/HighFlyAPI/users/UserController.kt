@@ -22,12 +22,14 @@ class UserController(val userService: UserService) {
     ) =
         SortDir.entries.firstOrNull { it.name == (sortDir ?: "ASC").uppercase() }
             ?.let { userService.findAll(it, role) }
+            ?.map { UserResponse(it) }
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()
 
     @GetMapping("/{id}")
     fun findByIdRoute(@PathVariable id: Long) =
         userService.findByIdOrNull(id)
+            ?.let {UserResponse(it)}
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()
 

@@ -19,8 +19,3 @@ interface DroneRepository : JpaRepository<Drone, Long>{
     @Query("SELECT d.usage FROM Drone d WHERE d.id = :id")
     fun findStatusById(@Param("id") id: Long): Boolean
 }
-
-//    return when (typeInfo) {
-//        Info.RANGE -> drone.range
-//        Info.PAYLOAD -> drone.payload
-//    }

@@ -15,13 +15,13 @@ class Order (
     @GeneratedValue
     var id: Long? = null,
 
-//    @NotNull
-//    @OneToOne
-//    @JoinColumn(name = "id")
-//    var idPerson: User,
-//
-//     @NotNull
-//     var products: List<Product>,
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    var user: User? = null ,
+
+    @OneToOne
+    @JoinColumn(name = "drone_id")
+    var drone: Drone? = null,
 
     @NotNull
     var status: Boolean = false,
@@ -32,9 +32,11 @@ class Order (
     @NotNull
     var identify : String = generateGuid(true),
 
-//    @NotNull
-//    @ManyToOne
-//    @JoinColumn(name = "id")
-//    var drone: Drone
-
+    @ManyToMany(cascade = [CascadeType.ALL])
+    @JoinTable(
+        name = "order_product",
+        joinColumns = [JoinColumn(name = "order_id")],
+        inverseJoinColumns = [JoinColumn(name = "product_id")]
+    )
+    var products: MutableSet<Product> = mutableSetOf()
 )

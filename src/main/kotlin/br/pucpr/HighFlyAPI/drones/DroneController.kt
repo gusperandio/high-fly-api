@@ -37,7 +37,7 @@ class DroneController(val droneService: DroneService) {
             .let { ResponseEntity.ok().build() }
             ?: ResponseEntity.notFound().build()
 
-    @GetMapping("/{id}")
+    @GetMapping("/status/{id}")
     fun findStatus(@PathVariable id: Long): ResponseEntity<Boolean> =
         droneService.findUsage(id).let {
             ResponseEntity.ok(it)

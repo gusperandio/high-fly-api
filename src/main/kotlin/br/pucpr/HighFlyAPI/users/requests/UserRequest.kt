@@ -1,5 +1,6 @@
-package br.pucpr.HighFlyAPI.users
+package br.pucpr.HighFlyAPI.users.requests
 
+import br.pucpr.HighFlyAPI.users.User
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 

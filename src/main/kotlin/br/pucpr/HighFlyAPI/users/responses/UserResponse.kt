@@ -1,4 +1,6 @@
-package br.pucpr.HighFlyAPI.users
+package br.pucpr.HighFlyAPI.users.responses
+
+import br.pucpr.HighFlyAPI.users.User
 
 data class UserResponse(
     val id: Long,

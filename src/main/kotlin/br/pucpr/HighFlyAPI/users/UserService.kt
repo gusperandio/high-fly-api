@@ -2,6 +2,11 @@ package br.pucpr.HighFlyAPI.users
 
 import br.pucpr.HighFlyAPI.enums.SortDir
 import br.pucpr.HighFlyAPI.role.RoleRepository
+import br.pucpr.HighFlyAPI.security.Crypt
+import br.pucpr.HighFlyAPI.security.Jwt
+import br.pucpr.HighFlyAPI.users.responses.LoginResponse
+import br.pucpr.HighFlyAPI.users.responses.UserResponse
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -9,9 +14,19 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(
     val userRepository: UserRepository,
-    val roleRepository: RoleRepository
+    val roleRepository: RoleRepository,
+    val jwt: Jwt
 ) {
-    fun save(user: User): User = userRepository.save(user)
+    companion object{
+        val log = LoggerFactory.getLogger(UserService::class.java)
+        private val crypt = Crypt()
+    }
+
+    fun save(user: User): User  {
+        user.password = crypt.hashPassword(user.password)
+
+        return userRepository.save(user)
+    }
 
     fun findAll(dir: SortDir, role: String?) =
         role?.let { r ->
@@ -43,4 +58,28 @@ class UserService(
         userRepository.save(user)
         return true
     }
+
+    fun login(email: String, password: String): LoginResponse? {
+        val user = userRepository.findByEmail(email)
+
+        if ( user == null ) {
+            log.warn("User not found with email $email")
+            return null
+        }
+
+        if (crypt.verifyPassword(password ,user.password)) {
+            log.warn("Invalid Password!!!")
+            return null
+        }
+
+        log.info("User logged in!")
+
+        return LoginResponse(
+            access_token = jwt.createToken(user),
+            UserResponse(user)
+        )
+    }
+
+
+
 }

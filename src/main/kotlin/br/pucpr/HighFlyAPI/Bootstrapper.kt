@@ -6,6 +6,7 @@ import br.pucpr.HighFlyAPI.products.Product
 import br.pucpr.HighFlyAPI.products.ProductRepository
 import br.pucpr.HighFlyAPI.role.Role
 import br.pucpr.HighFlyAPI.role.RoleRepository
+import br.pucpr.HighFlyAPI.security.Crypt
 import br.pucpr.HighFlyAPI.users.User
 import br.pucpr.HighFlyAPI.users.UserRepository
 import org.springframework.context.ApplicationListener
@@ -18,7 +19,11 @@ class Bootstrapper(
     val roleRepository: RoleRepository,
     val droneRepository: DroneRepository,
     val productRepository: ProductRepository
-): ApplicationListener<ContextRefreshedEvent> {
+) : ApplicationListener<ContextRefreshedEvent> {
+
+    companion object{
+        private val crypt = Crypt()
+    }
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
         val adminRole = roleRepository.findByName("ADMIN")
@@ -29,25 +34,26 @@ class Bootstrapper(
             val admin = User(
                 name = "Auth Server Administrator",
                 email = "admin@authserver.com",
-                password = "admin")
+                password = crypt.hashPassword("admin")
+            )
 
             admin.roles.add(adminRole)
 
             userRepository.save(admin)
         }
 
-        if(productRepository.count() == 0L){
+        if (productRepository.count() == 0L) {
             val products = listOf(
                 Product(name = "Flor Rara", price = 83.0, amount = 15, weight = 0.3),
                 Product(name = "Flor Lendária", price = 91.4, amount = 5, weight = 1.1),
                 Product(name = "Flor Semi Rara", price = 75.15, amount = 30, weight = 0.72),
                 Product(name = "Flor Simples", price = 39.99, amount = 342, weight = .60),
-                Product(name = "Flor Comum", price = 67.2, amount = 211, weight = 0.26 )
+                Product(name = "Flor Comum", price = 67.2, amount = 211, weight = 0.26)
             )
             productRepository.saveAll(products)
         }
 
-        if(droneRepository.count() == 0L){
+        if (droneRepository.count() == 0L) {
             val drones = listOf(
                 Drone(name = "DLR-1 MiniAircraft", range = 3.0, payload = 2.5, usage = false),
                 Drone(name = "DLV-4.1 Aircraft", range = 8.0, payload = 6.0, usage = false),
@@ -56,8 +62,5 @@ class Bootstrapper(
 
             droneRepository.saveAll(drones)
         }
-
-
     }
-
 }

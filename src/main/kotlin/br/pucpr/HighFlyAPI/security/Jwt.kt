@@ -21,7 +21,7 @@ class Jwt {
                     utcNow().plusHours(if (it.isAdmin) ADMIN_EXPIRE_HOURS else EXPIRE_HOURS).toDate()
                 ) //Expire Date TOKEN
                 .issuer(ISSUER) //! Server name
-                .subject(user.id.toString()) //The object how we apoint to discovery who is this guy
+                .subject(user.id.toString()) //The object how we appoint to discovery who is this guy
                 .claim(USER_FIELD, it) //Bonus Information
                 .compact() //GENERATE THE TEXT
         }

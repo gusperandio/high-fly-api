@@ -1,9 +1,5 @@
 package br.pucpr.HighFlyAPI.drones
 
-import br.pucpr.HighFlyAPI.enums.SortDir
-import br.pucpr.HighFlyAPI.users.User
-import br.pucpr.HighFlyAPI.users.UserRequest
-import br.pucpr.HighFlyAPI.users.UserResponse
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

@@ -1,8 +1,5 @@
 package br.pucpr.HighFlyAPI.products
 
-import br.pucpr.HighFlyAPI.enums.SortDir
-import br.pucpr.HighFlyAPI.enums.TypeOrder
-import br.pucpr.HighFlyAPI.users.UserResponse
 import br.pucpr.HighFlyAPI.utils.determineOrder
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus

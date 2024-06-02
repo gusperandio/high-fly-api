@@ -3,17 +3,19 @@ package br.pucpr.HighFlyAPI.security
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType
 import io.swagger.v3.oas.annotations.security.SecurityScheme
 import jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED
+import org.springframework.web.filter.CorsFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.config.http.SessionCreationPolicy.STATELESS
 import org.springframework.security.web.DefaultSecurityFilterChain
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 
 @Configuration
@@ -51,5 +53,15 @@ class SecurtyConfig {
             }.build()
 
     @Bean
-    fun corsFilter() = 
+    fun corsFilter() = CorsConfiguration().apply {
+        addAllowedHeader("*")
+        addAllowedOrigin("*")
+        addAllowedMethod("*")
+    }.let {
+        UrlBasedCorsConfigurationSource().apply {
+            registerCorsConfiguration("/**", it)
+        }
+    }.let {
+        CorsFilter(it)
+    }
 }

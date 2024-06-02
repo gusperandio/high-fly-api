@@ -27,7 +27,7 @@ class Jwt {
         }
 
     companion object {
-        const val SECRET = "35981FB176D6262784986ED376677"
+        const val SECRET = "53b7ca4b7752cc739cc74b96a97fc6900ab9cba6"
         const val EXPIRE_HOURS = 1L;
         const val ADMIN_EXPIRE_HOURS = 12L;
         const val ISSUER = "High-Fly"

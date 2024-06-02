@@ -6,7 +6,8 @@ import br.pucpr.HighFlyAPI.products.Product
 import br.pucpr.HighFlyAPI.products.ProductRepository
 import br.pucpr.HighFlyAPI.role.Role
 import br.pucpr.HighFlyAPI.role.RoleRepository
-import br.pucpr.HighFlyAPI.security.Crypt
+import br.pucpr.HighFlyAPI.security.PasswordUtils
+import br.pucpr.HighFlyAPI.security.hashPassword
 import br.pucpr.HighFlyAPI.users.User
 import br.pucpr.HighFlyAPI.users.UserRepository
 import org.springframework.context.ApplicationListener
@@ -21,9 +22,6 @@ class Bootstrapper(
     val productRepository: ProductRepository
 ) : ApplicationListener<ContextRefreshedEvent> {
 
-    companion object{
-        private val crypt = Crypt()
-    }
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
         val adminRole = roleRepository.findByName("ADMIN")
@@ -34,7 +32,7 @@ class Bootstrapper(
             val admin = User(
                 name = "Auth Server Administrator",
                 email = "admin@authserver.com",
-                password = crypt.hashPassword("admin")
+                password = hashPassword("admin")
             )
 
             admin.roles.add(adminRole)

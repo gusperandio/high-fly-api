@@ -2,8 +2,9 @@ package br.pucpr.HighFlyAPI.users
 
 import br.pucpr.HighFlyAPI.enums.SortDir
 import br.pucpr.HighFlyAPI.role.RoleRepository
-import br.pucpr.HighFlyAPI.security.Crypt
 import br.pucpr.HighFlyAPI.security.Jwt
+import br.pucpr.HighFlyAPI.security.PasswordUtils
+import br.pucpr.HighFlyAPI.security.hashPassword
 import br.pucpr.HighFlyAPI.users.responses.LoginResponse
 import br.pucpr.HighFlyAPI.users.responses.UserResponse
 import org.slf4j.LoggerFactory
@@ -19,11 +20,11 @@ class UserService(
 ) {
     companion object{
         val log = LoggerFactory.getLogger(UserService::class.java)
-        private val crypt = Crypt()
+        private val crypt = PasswordUtils()
     }
 
     fun save(user: User): User  {
-        user.password = crypt.hashPassword(user.password)
+        user.password = hashPassword(user.password)
 
         return userRepository.save(user)
     }

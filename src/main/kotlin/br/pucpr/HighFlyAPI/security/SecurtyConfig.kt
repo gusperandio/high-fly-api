@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy.STATELESS
 import org.springframework.security.web.DefaultSecurityFilterChain
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher
 import org.springframework.web.cors.CorsConfiguration
@@ -21,12 +22,12 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector
 @Configuration
 @EnableMethodSecurity
 @SecurityScheme(
-    name = "HighFly",
+    name = "WebToken",
     type = SecuritySchemeType.HTTP,
     scheme = "bearer",
     bearerFormat = "JWT",
 )
-class SecurtyConfig {
+class SecurtyConfig(val jwtTokenFilter: JwtTokenFilter) {
     @Bean
     fun mvc(introspector: HandlerMappingIntrospector) =
         MvcRequestMatcher.Builder(introspector)
@@ -50,7 +51,9 @@ class SecurtyConfig {
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users/login")).permitAll()
                     .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                     .anyRequest().authenticated()
-            }.build()
+            }
+            .addFilterBefore(jwtTokenFilter, BasicAuthenticationFilter::class.java)
+            .build()
 
     @Bean
     fun corsFilter() = CorsConfiguration().apply {

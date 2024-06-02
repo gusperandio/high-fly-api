@@ -4,9 +4,11 @@ import br.pucpr.HighFlyAPI.enums.SortDir
 import br.pucpr.HighFlyAPI.users.requests.LoginRequest
 import br.pucpr.HighFlyAPI.users.requests.UserRequest
 import br.pucpr.HighFlyAPI.users.responses.UserResponse
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -42,6 +44,8 @@ class UserController(val userService: UserService) {
             ?: ResponseEntity.notFound().build()
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "WebToken")
     fun deleteById(@PathVariable id: Long): ResponseEntity<Void> =
         userService.deleteById(id)
             .let { ResponseEntity.ok().build() }

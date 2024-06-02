@@ -16,10 +16,14 @@ class Order (
     var id: Long? = null,
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinTable(
+        name = "user",
+        joinColumns = [JoinColumn(name = "order_id")],
+        inverseJoinColumns = [JoinColumn(name = "user_id")]
+    )
     var user: User? = null ,
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "drone_id")
     var drone: Drone? = null,
 
@@ -32,7 +36,7 @@ class Order (
     @NotNull
     var identify : String = generateGuid(true),
 
-    @ManyToMany(cascade = [CascadeType.ALL])
+    @ManyToMany
     @JoinTable(
         name = "order_product",
         joinColumns = [JoinColumn(name = "order_id")],

@@ -1,19 +1,24 @@
 package br.pucpr.HighFlyAPI.drones
 
+import br.pucpr.HighFlyAPI.exceptions.BadRequestException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
-class DroneService(val repository: DroneRepository) {
-    fun insert(drone: Drone): Drone = repository.save(drone)
+class DroneService(val droneRepository: DroneRepository) {
+    fun insert(drone: Drone): Drone = droneRepository.save(drone)
 
-    fun findAll(): List<Drone>? = repository.findAll()
+    fun findAll(): List<Drone>? = droneRepository.findAll()
 
-    fun findByIdOrNull(id: Long): Drone? = repository.findByIdOrNull(id)
+    fun findByIdOrNull(id: Long): Drone? = droneRepository.findByIdOrNull(id)
 
-    fun deleteDroneByID(id: Long) = repository.deleteById(id)
+    fun deleteDroneByID(id: Long) = droneRepository.deleteById(id)
 
-    fun findUsage(id: Long): Boolean = repository.findStatusById(id)
+    fun findUsage(id: Long): Boolean {
+        val drone = droneRepository.findByIdOrNull(id) ?: throw BadRequestException("This Drone doesn't exists!")
 
-    fun changeUsage(id: Long, usingAlt: Boolean) = repository.updateDroneStatus(id, usingAlt)
+        return drone.usage
+    }
+
+    fun changeUsage(id: Long, usingAlt: Boolean) = droneRepository.updateDroneStatus(id, usingAlt)
 }

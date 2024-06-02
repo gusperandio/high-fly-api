@@ -12,7 +12,7 @@ data class UserToken(
     constructor(user: User): this(
         id = user.id!!,
         name = user.name,
-        roles = user.roles.map{ it.name}.toSortedSet() )
+        roles = user.roles.map{ it.name }.toSortedSet() )
 
     @get:JsonIgnore
     val isAdmin: Boolean get() = "ADMIN" in roles

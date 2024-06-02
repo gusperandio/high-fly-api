@@ -47,7 +47,7 @@ class Bootstrapper(
                 Product(name = "Flor Rara", price = 83.0, amount = 15, weight = 0.3),
                 Product(name = "Flor Lendária", price = 91.4, amount = 5, weight = 1.1),
                 Product(name = "Flor Semi Rara", price = 75.15, amount = 30, weight = 0.72),
-                Product(name = "Flor Simples", price = 39.99, amount = 342, weight = .60),
+                Product(name = "Flor Simples", price = 39.99, amount = 342, weight = 0.6),
                 Product(name = "Flor Comum", price = 67.2, amount = 211, weight = 0.26)
             )
             productRepository.saveAll(products)

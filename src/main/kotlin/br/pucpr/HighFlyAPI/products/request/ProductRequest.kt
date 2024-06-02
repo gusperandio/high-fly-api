@@ -1,7 +1,6 @@
-package br.pucpr.HighFlyAPI.products
+package br.pucpr.HighFlyAPI.products.request
 
-import br.pucpr.HighFlyAPI.users.User
-import jakarta.validation.constraints.Email
+import br.pucpr.HighFlyAPI.products.Product
 import jakarta.validation.constraints.NotBlank
 
 data class ProductRequest(

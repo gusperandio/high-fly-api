@@ -1,8 +1,10 @@
 package br.pucpr.HighFlyAPI.drones
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.*
 class DroneController(val droneService: DroneService) {
 
     @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "WebToken")
     fun insertDrone(@RequestBody @Valid droneReq: DroneRequest): ResponseEntity<Drone> =
         ResponseEntity.status(HttpStatus.CREATED)
             .body(droneService.insert(droneReq.toDrone()))
@@ -28,6 +32,8 @@ class DroneController(val droneService: DroneService) {
             ?: ResponseEntity.notFound().build()
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "WebToken")
     fun deleteById(@PathVariable id: Long): ResponseEntity<Void> =
         droneService.deleteDroneByID(id)
             .let { ResponseEntity.ok().build() }

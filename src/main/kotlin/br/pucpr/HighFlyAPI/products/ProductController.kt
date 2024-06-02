@@ -1,5 +1,6 @@
 package br.pucpr.HighFlyAPI.products
 
+import br.pucpr.HighFlyAPI.products.request.ProductRequest
 import br.pucpr.HighFlyAPI.utils.determineOrder
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -27,7 +28,7 @@ class ProductController(val productService: ProductService) {
             .let { ResponseEntity.ok(it) }
 
     @GetMapping("/{id}")
-    fun findByIdRoute(@PathVariable id: Long) =
+    fun findById(@PathVariable id: Long) =
         productService.findProductById(id)
             ?.let { ProductResponse(it) }
             ?.let { ResponseEntity.ok(it) }

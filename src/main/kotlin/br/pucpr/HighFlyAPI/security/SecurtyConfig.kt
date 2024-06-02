@@ -46,9 +46,14 @@ class SecurtyConfig(val jwtTokenFilter: JwtTokenFilter) {
             .headers { it.frameOptions { fo -> fo.disable() } }
             .authorizeHttpRequests { requests ->
                 requests
-                    .requestMatchers(antMatcher(HttpMethod.GET)).permitAll()
+//                    .requestMatchers(antMatcher(HttpMethod.GET)).permitAll()
+                    .requestMatchers(antMatcher(HttpMethod.GET, "/users/{id}")).authenticated()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users")).permitAll()
                     .requestMatchers(mvc.pattern(HttpMethod.POST, "/users/login")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/drones")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/drones/{id}")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/products")).permitAll()
+                    .requestMatchers(mvc.pattern(HttpMethod.GET, "/products/{id}")).permitAll()
                     .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                     .anyRequest().authenticated()
             }

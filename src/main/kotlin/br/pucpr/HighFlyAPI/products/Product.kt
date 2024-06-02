@@ -13,11 +13,11 @@ class Product (
     val name: String,
 
     @NotNull
-    var price: Double = 0.0,
+    var price: Double? = 0.0,
 
     @NotNull
     var amount: Int = 0,
 
     @NotNull
-    var weight: Double = 0.0
+    var weight: Double? = 0.0
 )

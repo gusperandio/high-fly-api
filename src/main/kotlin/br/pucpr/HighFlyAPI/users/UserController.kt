@@ -24,8 +24,9 @@ class UserController(val userService: UserService) {
             }
     }
 
-
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "WebToken")
     fun findAll(
         @RequestParam sortDir: String? = null,
         @RequestParam role: String? = null
@@ -36,7 +37,9 @@ class UserController(val userService: UserService) {
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()
 
+
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "WebToken")
     fun findByIdRoute(@PathVariable id: Long) =
         userService.findByIdOrNull(id)
             ?.let { UserResponse(it) }
@@ -45,13 +48,15 @@ class UserController(val userService: UserService) {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("permitAll()") Permite quem tem o token
     @SecurityRequirement(name = "WebToken")
     fun deleteById(@PathVariable id: Long): ResponseEntity<Void> =
-        userService.deleteById(id)
-            .let { ResponseEntity.ok().build() }
-            ?: ResponseEntity.notFound().build()
+        if (userService.deleteById(id)) ResponseEntity.ok().build()
+        else ResponseEntity.notFound().build()
 
     @PutMapping("/{id}/roles/{role}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "WebToken")
     fun grantRole(
         @PathVariable id: Long,
         @PathVariable role: String

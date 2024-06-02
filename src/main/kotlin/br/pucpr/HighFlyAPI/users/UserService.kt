@@ -1,6 +1,7 @@
 package br.pucpr.HighFlyAPI.users
 
 import br.pucpr.HighFlyAPI.enums.SortDir
+import br.pucpr.HighFlyAPI.exceptions.BadRequestException
 import br.pucpr.HighFlyAPI.role.RoleRepository
 import br.pucpr.HighFlyAPI.security.Crypt
 import br.pucpr.HighFlyAPI.security.Jwt
@@ -43,7 +44,17 @@ class UserService(
 
     fun findByIdOrNull(id: Long) = userRepository.findByIdOrNull(id)
 
-    fun deleteById(id: Long) = userRepository.deleteById(id)
+    fun deleteById(id: Long): Boolean {
+        val user = userRepository.findByIdOrNull(id) ?: return false
+        if(user.roles.any { it.name == "ADMIN" }){
+            val count = userRepository.findByRole("ADMIN").size
+            if (count == 1)  throw BadRequestException("Cannot delete the last system admin!")
+        }
+
+        userRepository.delete(user)
+        return true
+
+    }
 
     fun addRole(id: Long, roleName: String): Boolean {
         val user = userRepository.findByIdOrNull(id)

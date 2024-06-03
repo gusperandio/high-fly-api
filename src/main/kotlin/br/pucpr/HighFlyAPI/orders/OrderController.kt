@@ -21,7 +21,6 @@ class OrderController(val orderService: OrderService) {
     @GetMapping()
     fun findAllOrders(@RequestParam role: String? = null) = orderService.findAll()
 
-
     @GetMapping("/{id}")
     @SecurityRequirement(name = "WebToken")
     fun findByIdOrder(@PathVariable id: Long) =

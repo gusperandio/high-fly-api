@@ -25,8 +25,9 @@ class UserService(
 
     fun save(user: User): User  {
         user.password = crypt.hashPassword(user.password)
-
-        return userRepository.save(user)
+        val userSaved = userRepository.save(user)
+        addRole(userSaved.id!!, "USER")
+        return userSaved
     }
 
     fun findAll(dir: SortDir, role: String?) =

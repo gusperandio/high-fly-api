@@ -2,15 +2,19 @@ package br.pucpr.HighFlyAPI.products
 
 import br.pucpr.HighFlyAPI.products.request.ProductRequest
 import br.pucpr.HighFlyAPI.utils.determineOrder
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/procuts")
 class ProductController(val productService: ProductService) {
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "WebToken")
     @PostMapping()
     fun insertProduct(@RequestBody @Valid prodReq: ProductRequest): ResponseEntity<Product> =
         ResponseEntity.status(HttpStatus.CREATED)

@@ -36,9 +36,9 @@ class Jwt {
     fun extract(req: HttpServletRequest): Authentication? {
         try {
             val header = req.getHeader(AUTHORIZATION)
-            if (header == null || header.startsWith("Bearer")) return null
+            if (header == null || header.startsWith("bearer ")) return null
 
-            val token = header.replace("Bearer", "").trim()
+            val token = header.replace("Bearer ", "").trim()
 
             val claims = Jwts
                 .parser().verifyWith(Keys.hmacShaKeyFor(SECRET.toByteArray()))

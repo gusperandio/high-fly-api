@@ -22,9 +22,8 @@ class OrderController(val orderService: OrderService) {
     fun findAllOrders() = orderService.findAll()
 
 
-    @PreAuthorize("permitAll()")
-    @SecurityRequirement(name = "WebToken")
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "WebToken")
     fun findByIdOrder(@PathVariable id: Long) =
         orderService.findByIdOrNull(id)
             ?.let { ResponseEntity.ok(it) }

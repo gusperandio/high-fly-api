@@ -28,9 +28,9 @@ class OrderController(val orderService: OrderService) {
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()
 
-    @GetMapping("/{identifyCode}")
+    @GetMapping("/identifyCode")
     @SecurityRequirement(name = "WebToken")
-    fun findByCode(@PathVariable identifyCode: String) =
+    fun findByCode(@RequestParam identifyCode: String) =
         orderService.findByIdentifyCode(identifyCode)
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()

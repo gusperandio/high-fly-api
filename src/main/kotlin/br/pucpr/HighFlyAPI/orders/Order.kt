@@ -17,11 +17,11 @@ class Order (
 
     @ManyToOne
     @JoinTable(
-        name = "user",
+        name = "orderUser",
         joinColumns = [JoinColumn(name = "order_id")],
         inverseJoinColumns = [JoinColumn(name = "user_id")]
     )
-    var user: User? = null ,
+    var userOrder: User? = null ,
 
     @ManyToOne
     @JoinColumn(name = "drone_id")
@@ -34,7 +34,7 @@ class Order (
     var time: LocalTime = LocalTime.now(),
 
     @NotNull
-    var identify : String = generateGuid(true),
+    var identify : String = generateGuid(true).uppercase(),
 
     @ManyToMany
     @JoinTable(

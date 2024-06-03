@@ -19,13 +19,20 @@ class OrderController(val orderService: OrderService) {
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "WebToken")
     @GetMapping()
-    fun findAllOrders() = orderService.findAll()
+    fun findAllOrders(@RequestParam role: String? = null) = orderService.findAll()
 
 
     @GetMapping("/{id}")
     @SecurityRequirement(name = "WebToken")
     fun findByIdOrder(@PathVariable id: Long) =
         orderService.findByIdOrNull(id)
+            ?.let { ResponseEntity.ok(it) }
+            ?: ResponseEntity.notFound().build()
+
+    @GetMapping("/{identifyCode}")
+    @SecurityRequirement(name = "WebToken")
+    fun findByCode(@PathVariable identifyCode: String) =
+        orderService.findByIdentifyCode(identifyCode)
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()
 
@@ -38,6 +45,13 @@ class OrderController(val orderService: OrderService) {
                     .body(orderResp)
             }
     }
+
+    @PutMapping("/{id}")
+    @SecurityRequirement(name = "WebToken")
+    fun finishOrder(@PathVariable id: Long) =
+        orderService.finishOrder(id)
+            .let { ResponseEntity.ok(it) }
+            ?: ResponseEntity.notFound().build()
 
 
 }

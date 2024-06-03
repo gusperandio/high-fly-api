@@ -18,12 +18,12 @@ class UserService(
     val roleRepository: RoleRepository,
     val jwt: Jwt
 ) {
-    companion object{
+    companion object {
         val log = LoggerFactory.getLogger(UserService::class.java)
         private val crypt = Crypt()
     }
 
-    fun save(user: User): User  {
+    fun save(user: User): User {
         user.password = crypt.hashPassword(user.password)
         val userSaved = userRepository.save(user)
         addRole(userSaved.id!!, "USER")
@@ -42,14 +42,13 @@ class UserService(
             SortDir.DESC -> userRepository.findAll(Sort.by("name").descending())
         }
 
-
     fun findByIdOrNull(id: Long) = userRepository.findByIdOrNull(id)
 
     fun deleteById(id: Long): Boolean {
         val user = userRepository.findByIdOrNull(id) ?: return false
-        if(user.roles.any { it.name == "ADMIN" }){
+        if (user.roles.any { it.name == "ADMIN" }) {
             val count = userRepository.findByRole("ADMIN").size
-            if (count == 1)  throw BadRequestException("Cannot delete the last system admin!")
+            if (count == 1) throw BadRequestException("Cannot delete the last system admin!")
         }
 
         userRepository.delete(user)
@@ -74,12 +73,12 @@ class UserService(
     fun login(email: String, password: String): LoginResponse? {
         val user = userRepository.findByEmail(email)
 
-        if ( user == null ) {
+        if (user == null) {
             log.warn("User not found with email $email")
             return null
         }
 
-        if (!crypt.verifyPassword(password ,user.password)) {
+        if (!crypt.verifyPassword(password, user.password)) {
             log.warn("Invalid Password!!!")
             return null
         }
@@ -91,7 +90,6 @@ class UserService(
             UserResponse(user)
         )
     }
-
 
 
 }

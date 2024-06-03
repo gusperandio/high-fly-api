@@ -16,6 +16,14 @@ interface OrderRepository : JpaRepository<Order, Long>{
     fun updateOrderStatus(@Param("id") id: Long, @Param("status") status: Boolean): Int
 
 
-    @Query("SELECT CASE WHEN COUNT(o) > 0 THEN true ELSE false END FROM Order o WHERE o.user.id = :userId AND o.status = false")
+    @Query("SELECT CASE WHEN COUNT(o) > 0 THEN true ELSE false END FROM Order o " +
+            "JOIN o.userOrder r " +
+            " WHERE r.id = :userId " +
+            "AND o.status = false")
     fun existsOrderToFinish(@Param("userId") userId: Long): Boolean
+
+    @Query("SELECT u FROM Order u" +
+            " WHERE u.identify = :code ")
+    fun findByIdentify(@Param("code") code: String): Order?
+
 }
